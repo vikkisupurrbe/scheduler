@@ -10,6 +10,7 @@ export default function InterviewerItem(props) {
   return (
     <li className={itemClass} onClick={props.setInterviewer}>
       <img
+        referrerPolicy="no-referrer"
         className="interviewers__item-image"
         src={props.avatar}
         alt={props.name}
