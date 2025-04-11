@@ -90,4 +90,12 @@ export default {
     });
   }),
 
+  // Add delete key
+  delete: jest.fn(() => {
+    return Promise.resolve({
+      status: 204,
+      statusText: "No Content",
+    });
+  }),
+
 };
