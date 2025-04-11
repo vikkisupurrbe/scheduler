@@ -51,7 +51,11 @@ describe("Application Reducer", () => {
     // Now confirm Lydia shows up
     await findByText(appointment, "Lydia Miller-Jones");
 
-    debug();
+    const day = getAllByTestId(container, "day").find((day) => queryByText(day, "Monday"));
+
+    expect(getByText(day, "no spots remaining")).toBeInTheDocument();
+
+    // debug();
 
   });
 });
