@@ -2,7 +2,7 @@ import reducer from "./application";
 import '@testing-library/jest-dom';
 import "@testing-library/jest-dom/extend-expect";
 import { render } from "@testing-library/react";
-import { fireEvent, findByText, prettyDOM, getAllByTestId, getByAltText, getByPlaceholderText, getByText} from "@testing-library/react";
+import { fireEvent, findByText, prettyDOM, getAllByTestId, getByAltText, getByPlaceholderText, getByText, waitForElementToBeRemoved, queryByText } from "@testing-library/react";
 import Application from "../components/Application"
 
 describe("Application Reducer", () => {
@@ -26,7 +26,7 @@ describe("Application Reducer", () => {
   });
 
   it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
-    const { container } = render(<Application />);
+    const { container, debug } = render(<Application />);
 
     await findByText(container, "Archie Cohen");
 
@@ -42,6 +42,16 @@ describe("Application Reducer", () => {
 
     fireEvent.click(getByText(appointment, "Save"));
 
-    console.log(prettyDOM(appointment));
+    // Confirm "Saving" shows up first
+    expect(queryByText(appointment, "Saving")).toBeInTheDocument();
+
+    // Wait for "Saving" to disappear
+    await waitForElementToBeRemoved(() => queryByText(appointment, "Saving"));
+
+    // Now confirm Lydia shows up
+    await findByText(appointment, "Lydia Miller-Jones");
+
+    debug();
+
   });
 });
